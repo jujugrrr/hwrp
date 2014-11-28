@@ -1,24 +1,51 @@
 class Chef
-  class Provider
-    class MysqlClient
-      class Connector < Chef::Provider::MysqlClient
+  class Resource
+    class ConnectorMysqlClient < Chef::Resource::MysqlClient
+      # Chef attributes
+      provides :connector_mysql_client
 
-        def load_current_resource
-          @current_resource = Chef::Resource::Package.new(@new_resource.name)
-        end
+      # Set the resource name
+      self.resource_name = :connector_mysql_client
 
-        def action_create
-          Chef::Log.info("Creating mysql_client from Connector! Name : #{new_resource.name}")
-        end
+      # Actions
+      actions :create, :delete, :connect
+      default_action :create
 
-        def action_connect
-          Chef::Log.info("Connection -#{new_resource.name}- with -#{newresource.connect}-")
-        end
-
-      end
-   end
+      # Attributes
+      attribute :connect, :kind_of => String, :default => nil
+    end
   end
 end
 
-Chef::Platform.set :platform => :centos, :resource => :mysql_client,
-                     :provider => Chef::Provider::MysqlClient::Connector
+class Chef
+  class Provider
+    class ConnectorMysqlClient < Chef::Provider::MysqlClient
+
+        def load_current_resource
+          @current_resource = Chef::Resource::ConnectorMysqlClient.new(@new_resource.name)
+        end
+        def action_create
+          super
+          Chef::Log.info("Connection -#{new_resource.name}- with -#{new_resource.connect}-") if new_resource.connect
+        end
+
+    end
+  end
+end
+
+class Chef
+  class Provider
+    class ConnectorMysqlClient
+      class Rhel < Chef::Provider::ConnectorMysqlClient
+        def packages
+          Chef::Provider::MysqlClient::Rhel.new('class', 'method').packages
+        end
+      end
+    end
+  end
+end
+
+
+#Chef::Platform.set :platform => :centos, :resource => :mysql_client,
+#                     :provider => Chef::Provider::MysqlClient::Connector
+Chef::Platform.set :platform => :centos, :resource => :connector_mysql_client, :provider => Chef::Provider::ConnectorMysqlClient::Rhel
