@@ -7,3 +7,9 @@
 #
 
 log 'YEEAAAHHHHH'
+
+mysql_client 'MY CLIENT' do
+#  connect '8.8.8.8'
+  action :create
+#  provider Chef::Provider::MysqlClient::Connector
+end
