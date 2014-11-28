@@ -1,0 +1,35 @@
+{
+  "name": "master-01",
+  "chef_environment": "_default",
+  "json_class": "Chef::Node",
+  "automatic": {
+    "hostname": "vagrant.vm",
+    "os": "centos",
+    "recipes": [
+      "mysql-multi::mysql_master"
+    ],
+    "roles": [
+      "database_master"
+    ],
+    "tags": [
+      "mysql_master"
+    ],
+    "ipaddress": "192.168.0.23",
+    "mysql": {
+      "server_root_password": "gimm3masterpassw3rd"
+    },
+    "mysql-multi": {
+      "server_repl_password": "guudpasswerd"
+    }
+  },
+  "normal": {
+  },
+  "chef_type": "node",
+  "default": {
+  },
+  "override": {
+  },
+  "run_list": [
+    "role[database_master]"
+  ]
+}
