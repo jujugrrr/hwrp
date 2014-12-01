@@ -17,28 +17,29 @@ class Chef
   end
 end
 
-class Chef
-  class Provider
-    class ConnectorMysqlClient < Chef::Provider::MysqlClient
-
-        def load_current_resource
-          @current_resource = Chef::Resource::ConnectorMysqlClient.new(@new_resource.name)
-        end
-        def action_create
-          super
-          Chef::Log.info("Connection -#{new_resource.name}- with -#{new_resource.connect}-") if new_resource.connect
-        end
-
-    end
-  end
-end
+#class Chef
+#  class Provider
+#    class ConnectorMysqlClient < Chef::Provider::MysqlClient
+#
+#        def load_current_resource
+#          @current_resource = Chef::Resource::ConnectorMysqlClient.new(@new_resource.name)
+#        end
+##        def action_create
+##          super
+##          Chef::Log.info("Connection -#{new_resource.name}- with -#{new_resource.connect}-") if new_resource.connect
+##        end
+#
+#    end
+#  end
+#end
 
 class Chef
   class Provider
     class ConnectorMysqlClient
-      class Rhel < Chef::Provider::ConnectorMysqlClient
-        def packages
-          Chef::Provider::MysqlClient::Rhel.new('class', 'method').packages
+      class Rhel < Chef::Provider::MysqlClient::Rhel
+        def action_create
+          super
+          Chef::Log.info("Connection -#{new_resource.name}- with -#{new_resource.connect}-") if new_resource.connect
         end
       end
     end
