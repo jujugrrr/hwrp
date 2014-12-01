@@ -6,7 +6,9 @@
 # Copyright 2014, Rackspace
 #
 
-connector_mysql_client 'MY CLIENT' do
+extended_mysql_service 'my_slave_1' do
   connect '8.8.8.8'
+  server_repl_password 'repl_password'
+  server_type 'slave'
   action :create
 end
