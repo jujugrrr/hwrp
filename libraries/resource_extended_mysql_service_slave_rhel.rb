@@ -1,11 +1,11 @@
 class Chef
   class Resource
-    class ExtendedMysqlService < Chef::Resource::MysqlService
+    class ExtendedMysqlServiceSlave < Chef::Resource::MysqlService
       # Chef attributes
-      provides :extended_mysql_service
+      provides :extended_mysql_service_slave
 
       # Set the resource name
-      self.resource_name = :extended_mysql_service
+      self.resource_name = :extended_mysql_service_slave
 
       # Attributes
       attribute :connect, :kind_of => String, :default => nil
